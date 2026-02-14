@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bill Generator - Tap Hoa Trang</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <h1>TẠP HÓA TRẮNG</h1>
+            <p class="subtitle">Hệ Thống Tạo Hóa Đơn Bán Lẻ</p>
+        </header>
+
+        <main class="grid">
+            <section class="input-panel card">
+                <h2>Thêm Sản Phẩm</h2>
+                <div class="input-group">
+                    <div class="field">
+                        <label for="product-name">Tên sản phẩm</label>
+                        <input type="text" id="product-name" placeholder="Nhập tên hàng...">
+                    </div>
+                    <div class="field">
+                        <label for="product-price">Giá tiền (VNĐ)</label>
+                        <input type="number" id="product-price" placeholder="0">
+                    </div>
+                    <button id="add-item" class="btn-primary">Thêm vào giỏ</button>
+                </div>
+
+                <div class="bulk-section">
+                    <h3>Nhập nhanh từ danh sách</h3>
+                    <textarea id="bulk-input" placeholder="Ví dụ:&#10;Táo 50000&#10;Sữa 25000&#10;..."></textarea>
+                    <button id="bulk-add" class="btn-primary" style="width: 100%;">Thêm toàn bộ</button>
+                </div>
+
+                <div class="cart-section">
+                    <h3>Danh sách mặt hàng</h3>
+                    <div class="cart-container">
+                        <table id="cart-table">
+                            <thead>
+                                <tr>
+                                    <th>Tên Hàng</th>
+                                    <th>Đơn Giá</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Items will be added here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <section class="summary-panel card">
+                <h2>Thanh Toán</h2>
+                <div class="summary-fields">
+                    <div class="summary-item total">
+                        <span>Tổng Cộng:</span>
+                        <span id="display-total">0.000</span>
+                    </div>
+                    <div class="field">
+                        <label for="amount-paid">Khách đưa</label>
+                        <input type="number" id="amount-paid" placeholder="0">
+                    </div>
+                    <div class="summary-item change">
+                        <span>Tiền thừa:</span>
+                        <span id="display-change">0</span>
+                    </div>
+                </div>
+                <button id="generate-btn" class="btn-success">Xuất Hóa Đơn</button>
+
+                <div id="result-container" class="hidden">
+                    <h3>Hóa Đơn Của Bạn</h3>
+                    <div class="receipt-preview">
+                        <img id="receipt-image" src="" alt="Hóa đơn">
+                    </div>
+                    <a id="download-link" href="#" download="receipt.png" class="btn-outline">Tải Ảnh Về</a>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="js/receipt-generator.js"></script>
+    <script src="js/script.js"></script>
+</body>
+
+</html>
