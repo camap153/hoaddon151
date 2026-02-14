@@ -128,9 +128,18 @@ document.addEventListener('DOMContentLoaded', () => {
             const imageUrl = canvas.toDataURL('image/png');
             receiptImage.src = imageUrl;
 
-            // Setup download link
-            downloadLink.href = imageUrl;
-            downloadLink.download = `HD_${Date.now()}.png`;
+            // Setup download link using Blob for better compatibility
+            canvas.toBlob((blob) => {
+                const url = URL.createObjectURL(blob);
+                downloadLink.href = url;
+                downloadLink.download = `HD_${Date.now()}.png`;
+
+                // Clean up old URL if exists
+                if (downloadLink.dataset.blobUrl) {
+                    URL.revokeObjectURL(downloadLink.dataset.blobUrl);
+                }
+                downloadLink.dataset.blobUrl = url;
+            });
 
             resultContainer.classList.remove('hidden');
             resultContainer.scrollIntoView({ behavior: 'smooth' });
