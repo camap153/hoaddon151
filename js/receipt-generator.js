@@ -47,18 +47,12 @@ function generateReceiptCanvas(items, total, paid, change) {
     // Store name
     ctx.font = 'bold 22px Arial, sans-serif';
     ctx.textAlign = 'center';
-    ctx.fillText('TAP HOA TRANG', width / 2, y);
+    ctx.fillText('HOA DON', width / 2, y);
     y += 30;
 
-    // Store info
+    // Date and bill ID
     ctx.font = '12px Arial, sans-serif';
     ctx.textAlign = 'left';
-    ctx.fillText('DC: 59 Thoai Ngoc Hau, Dong Son 1, Thoai Son, AG', 10, y);
-    y += 18;
-    ctx.fillText('DT: 0819906706', 10, y);
-    y += 22;
-
-    // Date and bill ID
     const now = new Date();
     const dateStr = `Ngay: ${now.toLocaleDateString('vi-VN')} ${now.toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' })}`;
     ctx.fillText(dateStr, 10, y);
