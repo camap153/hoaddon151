@@ -142,9 +142,12 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        const total = items.reduce((sum, item) => sum + item.price, 0);
-        const paid = parseFloat(amountPaidInput.value) || 0;
-        const change = paid - total;
+        // Fix: Calculate total including quantity
+        const total = items.reduce((sum, item) => sum + (item.price * item.qty), 0);
+
+        const paidStr = amountPaidInput.value.replace(/[\.,]/g, '');
+        const paid = parseFloat(paidStr) || 0;
+        const change = paid > 0 ? paid - total : 0;
 
         try {
             generateBtn.disabled = true;
