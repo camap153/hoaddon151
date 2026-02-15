@@ -1,6 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
     const items = [];
     const productNameInput = document.getElementById('product-name');
+    const productQtyInput = document.getElementById('product-qty');
     const productPriceInput = document.getElementById('product-price');
     const addItemBtn = document.getElementById('add-item');
     const cartTableBody = document.querySelector('#cart-table tbody');
@@ -19,7 +20,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function updateSummary() {
-        const total = items.reduce((sum, item) => sum + item.price, 0);
+        const total = items.reduce((sum, item) => sum + (item.price * item.qty), 0);
         displayTotal.textContent = formatMoney(total);
 
         const paid = parseFloat(amountPaidInput.value) || 0;
@@ -30,10 +31,13 @@ document.addEventListener('DOMContentLoaded', () => {
     function renderCart() {
         cartTableBody.innerHTML = '';
         items.forEach((item, index) => {
+            const totalPrice = item.price * item.qty;
             const row = document.createElement('tr');
             row.innerHTML = `
                 <td>${item.name}</td>
+                <td>${item.qty}</td>
                 <td>${formatMoney(item.price)}</td>
+                <td>${formatMoney(totalPrice)}</td>
                 <td><button class="remove-btn" data-index="${index}">&times;</button></td>
             `;
             cartTableBody.appendChild(row);
@@ -52,15 +56,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
     addItemBtn.addEventListener('click', () => {
         const name = productNameInput.value.trim();
+        const qty = parseInt(productQtyInput.value) || 1;
         const price = parseFloat(productPriceInput.value);
 
-        if (!name || isNaN(price)) {
-            alert('Vui lòng nhập đầy đủ tên và giá sản phẩm valid');
+        if (!name || isNaN(price) || qty < 1) {
+            alert('Vui lòng nhập đầy đủ thông tin hợp lệ');
             return;
         }
 
-        items.push({ name, price });
+        items.push({ name, qty, price });
         productNameInput.value = '';
+        productQtyInput.value = '1';
         productPriceInput.value = '';
         productNameInput.focus();
 

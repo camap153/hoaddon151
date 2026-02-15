@@ -92,7 +92,7 @@ function generateReceiptCanvas(items, total, paid, change) {
     items.forEach(item => {
         const name = item.name;
         const price = formatMoney(item.price);
-        const qty = '1';
+        const qty = item.qty || 1;
 
         ctx.font = '14px "Courier New", monospace';
         const nameLines = wrapText(ctx, name, nameMaxWidth);
