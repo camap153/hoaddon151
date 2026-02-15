@@ -97,13 +97,6 @@ function generateReceiptCanvas(items, total, paid, change) {
         const price = formatMoney(item.price);
         const qty = item.qty || 1;
 
-        ctx.font = '14px "Courier New", monospace';
-        const nameLines = wrapText(ctx, name, nameMaxWidth);
-
-        // First line with name + values
-        ctx.textAlign = 'left';
-        ctx.fillText(nameLines[0], 10, y);
-
         // Auto-scale font size if text is too wide
         function drawScaledText(text, x, y, maxWidth, align = 'right') {
             let fontSize = 14;
@@ -112,8 +105,8 @@ function generateReceiptCanvas(items, total, paid, change) {
             let textWidth = ctx.measureText(text).width;
 
             // Aggressively reduce font size if too wide
-            while (textWidth > maxWidth && fontSize > 8) {
-                fontSize -= 1; // Reduce by 1px
+            while (textWidth > maxWidth && fontSize > 9) {
+                fontSize -= 1;
                 ctx.font = `${fontSize}px "Courier New", monospace`;
                 textWidth = ctx.measureText(text).width;
             }
@@ -126,12 +119,14 @@ function generateReceiptCanvas(items, total, paid, change) {
         }
 
         // Use strictly defined widths
-        // Price Max Width: 85px (From 280 to 200 approx)
-        // Total Max Width: 85px (From 380 to 300 approx)
+        const maxNameWidth = colQtyX - 20; // ~160px
 
         // Calculate total for this item
         const itemTotal = item.price * qty;
         const itemTotalStr = formatMoney(itemTotal);
+
+        // Draw Name with auto-scaling (Left aligned)
+        drawScaledText(name, 10, y, maxNameWidth, 'left');
 
         ctx.textAlign = 'right';
         ctx.fillText(qty, colQtyX, y);
@@ -141,13 +136,6 @@ function generateReceiptCanvas(items, total, paid, change) {
         drawScaledText(itemTotalStr, colTotalX, y, 85);
 
         y += 18;
-
-        // Additional name lines
-        ctx.textAlign = 'left';
-        for (let i = 1; i < nameLines.length; i++) {
-            ctx.fillText(nameLines[i], 10, y);
-            y += 18;
-        }
     });
 
     // Bottom line
