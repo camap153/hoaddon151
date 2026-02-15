@@ -72,11 +72,12 @@ function generateReceiptCanvas(items, total, paid, change) {
     // Column positions
     // Fixed Column Positions (Absolute X coordinates)
     // Width = 384px
-    const colQtyX = 240;    // Cột SL: Cố định ở pixel thứ 240
-    const colPriceX = 310;  // Cột Đơn giá: Cố định ở pixel thứ 310
-    const colTotalX = 380;  // Cột Thành tiền: Cố định sát phải (380)
+    const colQtyX = 180;    // Cột SL: Dời hẳn sang trái (180)
+    const colPriceX = 280;  // Cột Đơn giá: Dời sang trái chút (280) để cách SL 100px
+    const colTotalX = 380;  // Cột Thành tiền: Sát phải (380)
 
-    const nameMaxWidth = colQtyX - 40; // Tên hàng tối đa đến trước cột SL
+    // Tên hàng chỉ được phép dài đến trước cột SL một chút
+    const nameMaxWidth = colQtyX - 20;
 
     // Headers
     ctx.fillText('TEN HANG', 10, y);
