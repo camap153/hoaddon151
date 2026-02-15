@@ -70,18 +70,20 @@ function generateReceiptCanvas(items, total, paid, change) {
     y += 20;
 
     // Column positions
-    const rightLimit = width - 10;
-    const amountRight = rightLimit - 4;      // Cột Thành tiền (giữ nguyên, sát phải)
-    const priceRight = amountRight - 110;    // Cột Đơn giá (giữ nguyên)
-    const qtyRight = priceRight - 110;       // Cột SL (Dịch sang trái thêm 20px: 90 -> 110)
-    const nameMaxWidth = qtyRight - 20;      // Tên hàng sẽ ngắn lại tương ứng
+    // Fixed Column Positions (Absolute X coordinates)
+    // Width = 384px
+    const colQtyX = 240;    // Cột SL: Cố định ở pixel thứ 240
+    const colPriceX = 310;  // Cột Đơn giá: Cố định ở pixel thứ 310
+    const colTotalX = 380;  // Cột Thành tiền: Cố định sát phải (380)
+
+    const nameMaxWidth = colQtyX - 40; // Tên hàng tối đa đến trước cột SL
 
     // Headers
     ctx.fillText('TEN HANG', 10, y);
     ctx.textAlign = 'right';
-    ctx.fillText('SL', qtyRight, y);
-    ctx.fillText('DGIA', priceRight, y);
-    ctx.fillText('TT', amountRight, y);
+    ctx.fillText('SL', colQtyX, y);
+    ctx.fillText('DGIA', colPriceX, y);
+    ctx.fillText('TT', colTotalX, y);
     y += 18;
 
     ctx.textAlign = 'left';
@@ -102,9 +104,9 @@ function generateReceiptCanvas(items, total, paid, change) {
         ctx.fillText(nameLines[0], 10, y);
 
         ctx.textAlign = 'right';
-        ctx.fillText(qty, qtyRight, y);
-        ctx.fillText(price, priceRight, y);
-        ctx.fillText(price, amountRight, y);
+        ctx.fillText(qty, colQtyX, y);
+        ctx.fillText(price, colPriceX, y);
+        ctx.fillText(price, colTotalX, y);
         y += 18;
 
         // Additional name lines
@@ -133,11 +135,11 @@ function generateReceiptCanvas(items, total, paid, change) {
     const maxLabelWidth = Math.max(...labelWidths);
     const maxValueWidth = Math.max(...valueWidths);
     const minGap = 12;
-    const labelRight = rightLimit - maxValueWidth - minGap;
+    const rightLimit = 380;
 
     for (let i = 0; i < labels.length; i++) {
         ctx.textAlign = 'right';
-        ctx.fillText(labels[i], labelRight, y);
+        ctx.fillText(labels[i], rightLimit - 100, y); // Label cách giá trị một chút
         ctx.fillText(values[i], rightLimit, y);
         y += 18;
     }
