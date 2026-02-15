@@ -129,12 +129,16 @@ function generateReceiptCanvas(items, total, paid, change) {
         // Price Max Width: 85px (From 280 to 200 approx)
         // Total Max Width: 85px (From 380 to 300 approx)
 
+        // Calculate total for this item
+        const itemTotal = item.price * qty;
+        const itemTotalStr = formatMoney(itemTotal);
+
         ctx.textAlign = 'right';
         ctx.fillText(qty, colQtyX, y);
 
         // Draw Price and Total with auto-scaling
         drawScaledText(price, colPriceX, y, 85);
-        drawScaledText(price, colTotalX, y, 85);
+        drawScaledText(itemTotalStr, colTotalX, y, 85);
 
         y += 18;
 
