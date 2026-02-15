@@ -156,6 +156,8 @@ document.addEventListener('DOMContentLoaded', () => {
             // Display the canvas as image
             const imageUrl = canvas.toDataURL('image/png');
             receiptImage.src = imageUrl;
+            // Note: Data URLs don't really cache the same way, but let's ensure DOM updates
+            receiptImage.style.display = 'block';
 
             // Setup download link using Blob for better compatibility
             canvas.toBlob((blob) => {
