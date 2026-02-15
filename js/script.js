@@ -85,18 +85,30 @@ document.addEventListener('DOMContentLoaded', () => {
             line = line.trim();
             if (!line) return;
 
-            // Simple parser: last word as price, rest as name
-            // Or handle formats like "Name 10.000" or "Name 10000"
+            // Parser cải tiến: Tên SL Giá hoặc Tên Giá
             const parts = line.split(/\s+/);
             if (parts.length >= 2) {
-                const priceStr = parts.pop();
+                let priceStr = parts.pop();
+                let qtyStr = '1';
+
+                // Check if the second to last item is a number (quantity)
+                // Logic: If parts.length > 0 and the last element passed is number, check prev
+                if (parts.length > 0) {
+                    const possibleQty = parseFloat(parts[parts.length - 1].replace(/[\.,]/g, ''));
+                    // If it's a valid number and looks like a quantity (integer, reasonable size)
+                    // Heuristic: If user entered "Banh mi 2 10000", parts now is ["Banh", "mi", "2"]
+                    // We check "2".
+                    if (!isNaN(possibleQty) && parts[parts.length - 1].match(/^\d+$/)) {
+                        qtyStr = parts.pop();
+                    }
+                }
+
                 const name = parts.join(' ');
-
-                // Remove formatting from price string (like dots or commas)
                 const price = parseFloat(priceStr.replace(/[\.,]/g, ''));
+                const qty = parseInt(qtyStr) || 1;
 
-                if (!isNaN(price)) {
-                    items.push({ name, price });
+                if (!isNaN(price) && name) {
+                    items.push({ name, qty, price });
                     addedCount++;
                 }
             }
