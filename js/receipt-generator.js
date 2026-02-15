@@ -107,30 +107,34 @@ function generateReceiptCanvas(items, total, paid, change) {
         // Auto-scale font size if text is too wide
         function drawScaledText(text, x, y, maxWidth, align = 'right') {
             let fontSize = 14;
+            // Set font first to measure properly
             ctx.font = `${fontSize}px "Courier New", monospace`;
+            let textWidth = ctx.measureText(text).width;
 
-            while (ctx.measureText(text).width > maxWidth && fontSize > 8) {
-                fontSize--;
+            // Aggressively reduce font size if too wide
+            while (textWidth > maxWidth && fontSize > 8) {
+                fontSize -= 1; // Reduce by 1px
                 ctx.font = `${fontSize}px "Courier New", monospace`;
+                textWidth = ctx.measureText(text).width;
             }
 
             ctx.textAlign = align;
             ctx.fillText(text, x, y);
 
-            // Reset font
+            // Reset font for next operations
             ctx.font = '14px "Courier New", monospace';
         }
 
-        // Column widths for checking overlap
-        const maxPriceWidth = colTotalX - colPriceX - 10; // ~90px
-        const maxTotalWidth = width - colTotalX + (colTotalX - colPriceX) - 10; // ~90px (estimate)
+        // Use strictly defined widths
+        // Price Max Width: 85px (From 280 to 200 approx)
+        // Total Max Width: 85px (From 380 to 300 approx)
 
         ctx.textAlign = 'right';
         ctx.fillText(qty, colQtyX, y);
 
         // Draw Price and Total with auto-scaling
-        drawScaledText(price, colPriceX, y, 90);
-        drawScaledText(price, colTotalX, y, 90);
+        drawScaledText(price, colPriceX, y, 85);
+        drawScaledText(price, colTotalX, y, 85);
 
         y += 18;
 
