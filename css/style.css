@@ -174,32 +174,73 @@ input:focus {
     border-radius: 0.75rem;
 }
 
+/* Table Styling */
 table {
     width: 100%;
     border-collapse: collapse;
+    margin-top: 1rem;
+}
+
+th,
+td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
 }
 
 th {
-    text-align: left;
-    padding: 0.75rem 1rem;
-    background: rgba(0, 0, 0, 0.02);
-    font-size: 0.75rem;
-    text-transform: uppercase;
-    font-weight: 700;
-    color: var(--text-muted);
+    background-color: var(--background);
+    color: var(--text-secondary);
+    font-weight: 600;
+    font-size: 0.9rem;
+    white-space: nowrap;
 }
 
-td {
-    padding: 0.75rem 1rem;
-    border-top: 1px solid var(--border);
+/* Column Widths */
+th:nth-child(1),
+td:nth-child(1) {
+    width: 40%;
 }
+
+/* Tên hàng */
+th:nth-child(2),
+td:nth-child(2) {
+    width: 10%;
+    text-align: center;
+}
+
+/* SL */
+th:nth-child(3),
+td:nth-child(3) {
+    width: 20%;
+    text-align: right;
+}
+
+/* Đơn giá */
+th:nth-child(4),
+td:nth-child(4) {
+    width: 20%;
+    text-align: right;
+}
+
+/* Thành tiền */
+th:nth-child(5),
+td:nth-child(5) {
+    width: 10%;
+    text-align: center;
+}
+
+/* Xóa */
 
 .remove-btn {
     background: none;
     border: none;
-    color: #ef4444;
+    color: var(--danger);
+    font-size: 1.2rem;
     cursor: pointer;
-    opacity: 0.6;
+    padding: 4px 8px;
+    border-radius: 4px;
+    transition: background 0.2s;
 }
 
 .remove-btn:hover {

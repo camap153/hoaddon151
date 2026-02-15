@@ -35,10 +35,10 @@ document.addEventListener('DOMContentLoaded', () => {
             const row = document.createElement('tr');
             row.innerHTML = `
                 <td>${item.name}</td>
-                <td>${item.qty}</td>
-                <td>${formatMoney(item.price)}</td>
-                <td>${formatMoney(totalPrice)}</td>
-                <td><button class="remove-btn" data-index="${index}">&times;</button></td>
+                <td style="text-align: center">${item.qty}</td>
+                <td style="text-align: right">${formatMoney(item.price)}</td>
+                <td style="text-align: right">${formatMoney(totalPrice)}</td>
+                <td style="text-align: center"><button class="remove-btn" data-index="${index}">&times;</button></td>
             `;
             cartTableBody.appendChild(row);
         });
