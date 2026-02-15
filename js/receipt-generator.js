@@ -104,10 +104,34 @@ function generateReceiptCanvas(items, total, paid, change) {
         ctx.textAlign = 'left';
         ctx.fillText(nameLines[0], 10, y);
 
+        // Auto-scale font size if text is too wide
+        function drawScaledText(text, x, y, maxWidth, align = 'right') {
+            let fontSize = 14;
+            ctx.font = `${fontSize}px "Courier New", monospace`;
+
+            while (ctx.measureText(text).width > maxWidth && fontSize > 8) {
+                fontSize--;
+                ctx.font = `${fontSize}px "Courier New", monospace`;
+            }
+
+            ctx.textAlign = align;
+            ctx.fillText(text, x, y);
+
+            // Reset font
+            ctx.font = '14px "Courier New", monospace';
+        }
+
+        // Column widths for checking overlap
+        const maxPriceWidth = colTotalX - colPriceX - 10; // ~90px
+        const maxTotalWidth = width - colTotalX + (colTotalX - colPriceX) - 10; // ~90px (estimate)
+
         ctx.textAlign = 'right';
         ctx.fillText(qty, colQtyX, y);
-        ctx.fillText(price, colPriceX, y);
-        ctx.fillText(price, colTotalX, y);
+
+        // Draw Price and Total with auto-scaling
+        drawScaledText(price, colPriceX, y, 90);
+        drawScaledText(price, colTotalX, y, 90);
+
         y += 18;
 
         // Additional name lines
