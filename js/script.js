@@ -85,32 +85,40 @@ document.addEventListener('DOMContentLoaded', () => {
             line = line.trim();
             if (!line) return;
 
-            // Parser cải tiến: Tên SL Giá hoặc Tên Giá
-            const parts = line.split(/\s+/);
-            if (parts.length >= 2) {
-                let priceStr = parts.pop();
-                let qtyStr = '1';
+            // Parser cải tiến đơn giản hơn:
+            // Luôn lấy phần tử cuối cùng làm GIÁ.
+            // Kiểm tra phần tử kế cuối: nếu là số -> SỐ LƯỢNG. Nếu không -> mặc định là 1.
+            // Phần còn lại nối lại làm TÊN.
 
-                // Check if the second to last item is a number (quantity)
-                // Logic: If parts.length > 0 and the last element passed is number, check prev
+            const parts = line.split(/\s+/);
+
+            if (parts.length >= 2) {
+                // 1. Lấy giá (phần tử cuối cùng)
+                let priceStr = parts.pop();
+                let price = parseFloat(priceStr.replace(/[\.,]/g, '')); // Loại bỏ dấu chấm/phẩy khi parse giá
+
+                // Nếu giá không hợp lệ, bỏ qua dòng này
+                if (isNaN(price)) return;
+
+                let qty = 1;
+
+                // 2. Kiểm tra phần tử kế cuối để xem có phải số lượng không
                 if (parts.length > 0) {
-                    const rawQty = parts[parts.length - 1];
-                    // Replace dots/commas only if they are thousand separators, but keep decimal point if valid
-                    // For safety, let's try to parse it directly. 
-                    // If it matches a number pattern (integer or decimal)
-                    if (rawQty.match(/^\d+([.,]\d+)?$/)) {
-                        const val = parseFloat(rawQty.replace(',', '.'));
-                        if (!isNaN(val)) {
-                            qtyStr = parts.pop().replace(',', '.');
-                        }
+                    const lastPart = parts[parts.length - 1];
+                    // Kiểm tra xem có phải số không (chấp nhận cả số thập phân như 1.5)
+                    // Lưu ý: thay thế dấu phẩy bằng chấm để chuẩn hóa số thập phân
+                    const possibleQty = parseFloat(lastPart.replace(',', '.'));
+
+                    if (!isNaN(possibleQty)) {
+                        qty = possibleQty; // Lấy làm số lượng
+                        parts.pop();       // Xóa khỏi mảng tên
                     }
                 }
 
+                // 3. Phần còn lại là tên
                 const name = parts.join(' ');
-                const price = parseFloat(priceStr.replace(/[\.,]/g, ''));
-                const qty = parseInt(qtyStr) || 1;
 
-                if (!isNaN(price) && name) {
+                if (name) {
                     items.push({ name, qty, price });
                     addedCount++;
                 }
