@@ -72,9 +72,9 @@ function generateReceiptCanvas(items, total, paid, change) {
     // Column positions
     const rightLimit = width - 10;
     const amountRight = rightLimit - 4;      // Cột Thành tiền (giữ nguyên, sát phải)
-    const priceRight = amountRight - 95;     // Cột Đơn giá (Tăng khoảng cách với Thành tiền: 85 -> 95)
-    const qtyRight = priceRight - 75;        // Cột SL (Tăng khoảng cách với Đơn giá: 55 -> 75)
-    const nameMaxWidth = qtyRight - 20;      // Tên hàng sẽ ngắn lại một chút
+    const priceRight = amountRight - 110;    // Cột Đơn giá (Tăng mạnh: 95 -> 110)
+    const qtyRight = priceRight - 90;        // Cột SL (Tăng mạnh: 75 -> 90)
+    const nameMaxWidth = qtyRight - 20;      // Tên hàng sẽ ngắn lại để nhường chỗ
 
     // Headers
     ctx.fillText('TEN HANG', 10, y);
