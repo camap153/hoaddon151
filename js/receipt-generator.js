@@ -97,7 +97,7 @@ function generateReceiptCanvas(items, total, paid, change) {
         const price = formatMoney(item.price);
         const qty = item.qty || 1;
 
-        // Auto-scale font size if text is too wide
+        // Auto-scale font size if text is too wide, then truncate if necessary
         function drawScaledText(text, x, y, maxWidth, align = 'right') {
             let fontSize = 14;
             // Set font first to measure properly
@@ -105,10 +105,19 @@ function generateReceiptCanvas(items, total, paid, change) {
             let textWidth = ctx.measureText(text).width;
 
             // Aggressively reduce font size if too wide
-            while (textWidth > maxWidth && fontSize > 9) {
+            while (textWidth > maxWidth && fontSize > 8) {
                 fontSize -= 1;
                 ctx.font = `${fontSize}px "Courier New", monospace`;
                 textWidth = ctx.measureText(text).width;
+            }
+
+            // If still too wide at minimum font size, truncate with ellipsis
+            if (textWidth > maxWidth) {
+                let truncated = text;
+                while (ctx.measureText(truncated + '...').width > maxWidth && truncated.length > 0) {
+                    truncated = truncated.slice(0, -1);
+                }
+                text = truncated + '...';
             }
 
             ctx.textAlign = align;
