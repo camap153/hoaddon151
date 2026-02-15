@@ -94,12 +94,15 @@ document.addEventListener('DOMContentLoaded', () => {
                 // Check if the second to last item is a number (quantity)
                 // Logic: If parts.length > 0 and the last element passed is number, check prev
                 if (parts.length > 0) {
-                    const possibleQty = parseFloat(parts[parts.length - 1].replace(/[\.,]/g, ''));
-                    // If it's a valid number and looks like a quantity (integer, reasonable size)
-                    // Heuristic: If user entered "Banh mi 2 10000", parts now is ["Banh", "mi", "2"]
-                    // We check "2".
-                    if (!isNaN(possibleQty) && parts[parts.length - 1].match(/^\d+$/)) {
-                        qtyStr = parts.pop();
+                    const rawQty = parts[parts.length - 1];
+                    // Replace dots/commas only if they are thousand separators, but keep decimal point if valid
+                    // For safety, let's try to parse it directly. 
+                    // If it matches a number pattern (integer or decimal)
+                    if (rawQty.match(/^\d+([.,]\d+)?$/)) {
+                        const val = parseFloat(rawQty.replace(',', '.'));
+                        if (!isNaN(val)) {
+                            qtyStr = parts.pop().replace(',', '.');
+                        }
                     }
                 }
 
