@@ -1,0 +1,17 @@
+# Python files
+*.py
+__pycache__/
+*.pyc
+Procfile
+requirements.txt
+
+# PHP files
+*.php
+
+# Other folders
+static/
+templates/
+receipts/
+fonts/
+.venv/
+venv/
